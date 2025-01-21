@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retinopathy Detection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5; /* Attractive gold color */
+        }
+        header {
+            background-color: #649ff3; /* Coral color */
+            padding: 20px 0;
+            text-align: center;
+            color: #fff;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 10px;
+            display: inline-block;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        #container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            text-align: center;
+            color: #666;
+        }
+        #homeSection img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        #imageInput {
+            display: block;
+            margin: 10px auto;
+        }
+        button {
+            background-color: rgb(0, 191, 255);
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto;
+        }
+
+        button:hover {
+      background-color:#2300ad;
+      transition: 0.7s;
+  }
+        #keyFeatures {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            padding: 20px;
+        }
+        .featureCard {
+            flex: 1;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 0 10px;
+            transition: transform 0.3s;
+        }
+        .featureCard:hover {
+            transform: scale(1.05);
+        }
+        .featureCard h3 {
+            color: #333;
+        }
+        #predictionSection, #accuracySection {
+            display: none;
+        }
+        .additionalCard {
+            height: 200px;
+            width:auto;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: transform 0.3s;
+        }
+        .additionalCard:hover {
+            transform: scale(1.01);
+        }
+        .additionalCard img {
+            padding-right: 20px;
+            padding-top: 10px;
+            height: 150px; ;
+            width: 150px;
+            /* max-width: 100%; */
+            border-radius: 8px;
+            margin-bottom: 20px;
+            float:inline-start;
+        }
+        .additionalCard p {
+            color: #666;
+            text-align: center;
+            padding-left: 2%;
+        }
+        .additionalCard.reverse p {
+            /* Change the order of the text to appear on the left */
+            color: #1c0404;
+            text-align: center;
+            padding-left: 2%;
+            margin-left: 1px;
+        }
+        .additionalCard.reverse {
+            display: flex;
+            /* flex-direction: row-reverse; */
+            align-items: center;
+            justify-content: space-between;
+        }
+        .additionalCard.reverse img {
+            padding-left: 20px;
+            padding-top: 10px;
+            height: 150px; ;
+            width: 160px;
+            /* max-width: 100%; */
+            border-radius: 8px;
+            margin-bottom: 20px;
+            float:inline-start;
+            margin-left: 20px;
+            margin-right: 0;
+            order: 2;
+          
+
+        }
+
+        
+        .accuracyImages {
+           
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .accuracyImages img {
+            height: 600px;
+            width: 600px;
+            padding-right: 10px;
+            /* max-width: 150px; */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .additionalCard.reverse #bold {
+            display: block;
+            float: left;
+
+            text-align: left; /* Align the "Symptoms" text to the left */
+            color: #333;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Retinopathy Detection</h1>
+    </header>
+    
+    <nav>
+        <a href="#" onclick="showHome()">Home</a>
+        <a href="#" onclick="showPrediction()">Prediction</a>
+        <a href="#" onclick="showAccuracy()">Analysis</a>
+    </nav>
+
+    <div id="container">
+        <div id="homeSection">
+            <h2>Welcome to Retinopathy Detection</h2>
+            <p>
+                Retinopathy is a disease of the retina that may lead to blindness. This website uses advanced technology
+                to detect retinopathy from retinal images.
+            </p>
+            <div id="keyFeatures">
+                <div class="featureCard">
+                    <h3>Fast and Accurate</h3>
+                    <p>Our detection algorithm provides fast and accurate results, ensuring timely intervention.</p>
+                </div>
+                <div class="featureCard">
+                    <h3>Secure and Private</h3>
+                    <p>Your data is treated with utmost security and privacy, adhering to the highest standards.</p>
+                </div>
+                <div class="featureCard">
+                    <h3>User-friendly Interface</h3>
+                    <p>The intuitive interface makes it easy for users to navigate and upload retina images for analysis.</p>
+                </div>
+            </div>
+            
+            <!-- Additional Cards with Images and Content -->
+            <div class="additionalCard">
+                <img src="{{ url_for('static', filename='img1.jpg') }}" alt="Additional Image 1">
+                <p> <h3>What is Retinopathy?</h3>
+                    
+Retinopathy is a medical condition characterized by damage to the retina, the light-sensitive tissue located at the back of the eye. The retina plays a pivotal role in transmitting visual information to the brain, and any impairment to its function can result in vision problems. The primary cause of retinopathy is often associated with damage to the tiny blood vessels that supply nutrients and oxygen to the retina.
+
+There are various types of retinopathy, with two common forms being diabetic retinopathy and hypertensive retinopathy. Diabetic retinopathy is a complication of diabetes, where prolonged elevated blood sugar levels lead to damage in the small blood vessels of the retina. This can result in swelling, leakage, and the formation of abnormal new blood vessels, ultimately affecting vision.
+                </p>
+            </div>
+            <div class="additionalCard reverse">
+                
+                <img src="{{ url_for('static', filename='img2.jpg') }}" alt="Additional Image 2">
+                <p> <span id="bold"><b>Symptoms:</b></span><br><br>
+                    Sudden Vision Loss: In advanced stages, rapid and severe vision impairment may occur.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    Fluctuating Vision: Inconsistent or varying levels of visual acuity, particularly notable in diabetic retinopathy.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                    Eye Pain or Discomfort: Some individuals may experience pain or a sensation of pressure in the eyes.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+                    Vision Changes in One Eye: Retinopathy may affect one eye more than the other, leading to asymmetrical symptoms.
+                </p>
+            </div>
+        </div>
+
+        <div id="predictionSection">
+            <h2>Image Upload and Prediction</h2>
+            <p>Upload your retina image and detect retinopathy:</p>
+            <input type="file" id="imageInput" accept="image/*">
+            <button onclick="uploadImage()">Detect Retinopathy</button>
+            <div id="output"></div>
+        </div>
+
+        <div id="accuracySection">
+            <h2>Model Accuracy Analysis</h2>
+
+            <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 Class Classification</h3>
+            <div class="accuracyImages">
+                <img src="{{ url_for('static', filename='Accuracy.png') }}" alt="Image 1">
+                <img src="{{ url_for('static', filename='cfnm.png') }}" alt="Image 2">
+            </div>
+            <br>
+            <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binary Class Classification</h3>
+            <div class="accuracyImages">
+                <img src="{{ url_for('static', filename='binary-acc.png') }}" alt="Image 3">
+                <img src="{{ url_for('static', filename='binary-cfnm.png') }}" alt="Image 4">
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        window.onbeforeunload = function () {
+            return "Are you sure you want to leave?";
+        };
+        function showHome() {
+            document.getElementById('homeSection').style.display = 'block';
+            document.getElementById('predictionSection').style.display = 'none';
+            document.getElementById('accuracySection').style.display = 'none';
+        }
+
+        function showPrediction() {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('predictionSection').style.display = 'block';
+            document.getElementById('accuracySection').style.display = 'none';
+        }
+
+        function showAccuracy() {
+            document.getElementById('homeSection').style.display = 'none';
+            document.getElementById('predictionSection').style.display = 'none';
+            document.getElementById('accuracySection').style.display = 'block';
+        }
+
+        function uploadImage() {
+            const input = document.getElementById('imageInput');
+            const outputDiv = document.getElementById('output');
+
+            if (input.files.length === 0) {
+                alert('Please select an image first.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', input.files[0]);  // Ensure the key is 'image'
+
+            fetch('http://127.0.0.1:5000/upload_image', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Process the model output and update the UI
+                outputDiv.innerHTML = `<p>Model Output: ${data.result}</p>`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                outputDiv.innerHTML = '<p>Error occurred during model inference.</p>';
+            });
+        }
+    </script>
+</body>
+</html>

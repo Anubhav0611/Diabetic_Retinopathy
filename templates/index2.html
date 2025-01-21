@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetic Retinopathy Detection</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        header {
+            background-color: #007bff;
+            padding: 20px 0;
+            text-align: center;
+            color: #fff;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 10px;
+            display: inline-block;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        #container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            text-align: center;
+            color: #666;
+        }
+        #imageInput {
+            display: block;
+            margin: 10px auto;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 10px auto;
+        }
+        #output {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Diabetic Retinopathy Detection</h1>
+    </header>
+    
+    <nav>
+        <a href="#" onclick="showImageUpload()">Image Upload</a>
+        <a href="#" onclick="showAccuracy()">Accuracy</a>
+    </nav>
+
+    <div id="container">
+        <div id="imageUploadSection">
+            <p>Upload your retina image:</p>
+            <input type="file" id="imageInput" accept="image/*">
+            <button onclick="uploadImage()">Detect Diabetic Retinopathy</button>
+            <div id="output"></div>
+        </div>
+
+        <div id="accuracySection" style="display: none;">
+            <!-- Add content for the accuracy section here -->
+        </div>
+    </div>
+
+    <script>
+        function showImageUpload() {
+            document.getElementById('imageUploadSection').style.display = 'block';
+            document.getElementById('accuracySection').style.display = 'none';
+        }
+
+        function showAccuracy() {
+            document.getElementById('imageUploadSection').style.display = 'none';
+            document.getElementById('accuracySection').style.display = 'block';
+            // Add logic to display accuracy information here
+        }
+
+        function uploadImage() {
+            const input = document.getElementById('imageInput');
+            const outputDiv = document.getElementById('output');
+
+            if (input.files.length === 0) {
+                alert('Please select an image first.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', input.files[0]);  // Ensure the key is 'image'
+
+            fetch('http://127.0.0.1:5000/upload_image', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Process the model output and update the UI
+                outputDiv.innerHTML = `<p>Model Output: ${data.result}</p>`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                outputDiv.innerHTML = '<p>Error occurred during model inference.</p>';
+            });
+        }
+    </script>
+</body>
+</html>
